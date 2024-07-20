@@ -1,6 +1,19 @@
+using BookManager.Core.Repositories;
+using BookManager.Infrastructure.Persistence;
+using BookManager.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<BookDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryCs")));
+
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

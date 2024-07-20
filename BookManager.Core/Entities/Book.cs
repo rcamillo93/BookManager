@@ -19,7 +19,7 @@
         public int AnoPublicacao { get; private set; }
         public bool Disponivel { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        public Loan Loan { get; private set; }
+        public Loan LoanBook { get; private set; }
 
         public void AtualizarStatus(bool status)
         {
