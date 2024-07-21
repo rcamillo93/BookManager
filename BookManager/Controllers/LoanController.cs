@@ -1,4 +1,5 @@
 ﻿using BookManager.Application.Commands.CreateLoan;
+using BookManager.Application.Queries.GetAllLoan;
 using BookManager.Application.Queries.GetLonById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,16 @@ namespace BookManager.Controllers
         public LoanController(IMediator mediator)
         {
             _mediator = mediator;
-        }      
+        }    
+        
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var query = new GetAllLoansQuery();
+            var loan = await _mediator.Send(query);
+
+            return Ok(loan);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

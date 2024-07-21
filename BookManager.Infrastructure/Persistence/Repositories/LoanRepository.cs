@@ -21,7 +21,10 @@ namespace BookManager.Infrastructure.Persistence.Repositories
 
         public async Task<List<Loan>> GetAllLoanAsync()
         {
-            return await _dbContext.Loans.ToListAsync();
+            return await _dbContext.Loans
+                .Include(b => b.Book)
+                .Include(c => c.Cliente)
+                .ToListAsync();
         }
 
         public async Task<Loan?> GetLoanByIdAsync(int id)

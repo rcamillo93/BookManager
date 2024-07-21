@@ -1,3 +1,4 @@
+using BookManager.Application.Commands.CreateBook;
 using BookManager.Core.Repositories;
 using BookManager.Infrastructure.Persistence;
 using BookManager.Infrastructure.Persistence.Repositories;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BookDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryCs")));
 
+builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(CreateBookCommand)));
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
