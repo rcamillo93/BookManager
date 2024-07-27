@@ -4,24 +4,39 @@ namespace BookManager.Core.Entities
 {
     public class Loan : BaseEntity
     {
-        public Loan(int idUsuario, int idLivro)
+        public Loan(int idUser, int idBook)
         {
-            IdUsuario = idUsuario;
-            IdLivro = idLivro;
+            IdUser = idUser;
+            IdBook = idBook;
 
-            Status = LoanStatusEnun.Ativo;
-            DataEmprestimo = DateTime.Now;
-            DataPrevista = DataEmprestimo.AddDays(7);
+            Status = LoanStatusEnun.Active;
+            LoanDate = DateTime.Now;
+            ExpectedDate = LoanDate.AddDays(7);
         }
 
-        public int IdUsuario { get; private set; }
-        public int IdLivro { get; private set; }
+        public int IdUser { get; private set; }
+        public int IdBook { get; private set; }
         public LoanStatusEnun Status { get; private set; }
-        public DateTime DataEmprestimo { get; private set; }
-        public DateTime? DataPrevista { get; private set; }
-        public DateTime? Devolvido { get; private set; }
+        public DateTime LoanDate { get; private set; }
+        public DateTime? ExpectedDate { get; private set; }
+        public DateTime? Returned { get; private set; }
 
-        public User Cliente { get; private set; }
+        public User Client { get; private set; }
         public Book Book { get; private set; }
+
+        public void DevolverLivro()
+        {
+            if(Status == LoanStatusEnun.Active)
+            {
+                Returned = DateTime.Now;
+                Book.AtualizarStatus(true);
+            }
+            else if(Status == LoanStatusEnun.Late)
+            {
+                Returned = DateTime.Now;
+                Book.AtualizarStatus(true);
+                Client.SetRestriction();
+            }
+        }
     }
 }

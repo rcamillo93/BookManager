@@ -1,7 +1,6 @@
-﻿using BookManager.Application.Commands.CreateUser;
-using BookManager.Application.Queries.GetUserById;
+﻿using BookManager.Application.Commands.UsersCommands.CreateUser;
+using BookManager.Application.Queries.UsersQueries.GetUserById;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookManager.Controllers
@@ -31,5 +30,11 @@ namespace BookManager.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
+
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateRestriction(int id)
+        //{
+            
+        //}
     }
 }

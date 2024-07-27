@@ -1,8 +1,8 @@
-﻿using BookManager.Application.Commands.CreateLoan;
-using BookManager.Application.Queries.GetAllLoan;
-using BookManager.Application.Queries.GetLonById;
+﻿using BookManager.Application.Commands.LoansCommands.CreateLoan;
+using BookManager.Application.Commands.LoansCommands.FinishLoan;
+using BookManager.Application.Queries.LoansQueries.GetAllLoan;
+using BookManager.Application.Queries.LoansQueries.GetLonById;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookManager.Controllers
@@ -40,6 +40,15 @@ namespace BookManager.Controllers
         public async Task<IActionResult> Post([FromBody] CreateLoanCommand command)
         {
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id)
+        {
+            var command = new FinishLoanCommand(id);
+            await _mediator.Send(command);
+
             return NoContent();
         }
 

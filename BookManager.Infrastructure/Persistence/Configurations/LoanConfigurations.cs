@@ -13,13 +13,13 @@ namespace BookManager.Infrastructure.Persistence.Configurations
 
             builder.HasOne(b => b.Book)
                 .WithMany(b => b.LoansBook)
-                .HasForeignKey(b => b.IdLivro)
+                .HasForeignKey(b => b.IdBook)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(u => u.Cliente)
+                .HasOne(u => u.Client)
                 .WithMany(u => u.LoansUser)
-                .HasForeignKey(u => u.IdUsuario)
+                .HasForeignKey(u => u.IdUser)
                 .OnDelete(DeleteBehavior.Restrict); 
         }
     }

@@ -23,13 +23,16 @@ namespace BookManager.Infrastructure.Persistence.Repositories
         {
             return await _dbContext.Loans
                 .Include(b => b.Book)
-                .Include(c => c.Cliente)
+                .Include(c => c.Client)
                 .ToListAsync();
         }
 
         public async Task<Loan?> GetLoanByIdAsync(int id)
         {
-            return await _dbContext.Loans.SingleOrDefaultAsync(loan => loan.Id == id);  
+            return await _dbContext.Loans
+                .Include(b => b.Book)
+                .Include(c => c.Client)
+                .SingleOrDefaultAsync(loan => loan.Id == id);  
         }
 
         public async Task SaveChangesAsync()

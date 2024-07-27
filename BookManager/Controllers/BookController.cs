@@ -1,8 +1,7 @@
-﻿using BookManager.Application.Commands.CreateBook;
-using BookManager.Application.Queries.GetAllBooks;
-using BookManager.Application.Queries.GetBookById;
+﻿using BookManager.Application.Commands.BooksCommands.CreateBook;
+using BookManager.Application.Queries.BooksQueries.GetAllBooks;
+using BookManager.Application.Queries.BooksQueries.GetBookById;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookManager.Controllers

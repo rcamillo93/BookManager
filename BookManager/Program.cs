@@ -1,7 +1,10 @@
-using BookManager.Application.Commands.CreateBook;
+using BookManager.Api.Filters;
+using BookManager.Application.Commands.BooksCommands.CreateBook;
+using BookManager.Application.Validators;
 using BookManager.Core.Repositories;
 using BookManager.Infrastructure.Persistence;
 using BookManager.Infrastructure.Persistence.Repositories;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,13 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BookDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryCs")));
 
-builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(CreateBookCommand)));
+builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(ValidationFilter)))
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBookCommandValidator>());
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)));
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

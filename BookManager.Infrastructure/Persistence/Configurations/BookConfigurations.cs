@@ -12,7 +12,7 @@ namespace BookManager.Infrastructure.Persistence.Configurations
                 .HasKey(b => b.Id);
 
             builder
-                .Property(u => u.Titulo)
+                .Property(u => u.Title)
                 .IsRequired()
                 .HasMaxLength(100);
         }
