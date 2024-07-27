@@ -1,9 +1,11 @@
-﻿using BookManager.Core.Repositories;
+﻿using BookManager.Application.Models;
+using BookManager.Core.Entities;
+using BookManager.Core.Repositories;
 using MediatR;
 
 namespace BookManager.Application.Commands.UsersCommands.UpdateUser
 {
-    public class RemoveRestrictionUserHandler : IRequestHandler<RemoveRestrictionUserCommand>
+    public class RemoveRestrictionUserHandler : IRequestHandler<RemoveRestrictionUserCommand, ResultViewModel>
     {
         private readonly IUserRepository _userRepository;
 
@@ -12,9 +14,16 @@ namespace BookManager.Application.Commands.UsersCommands.UpdateUser
             _userRepository = userRepository;
         }
 
-        public async Task Handle(RemoveRestrictionUserCommand request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel> Handle(RemoveRestrictionUserCommand request, CancellationToken cancellationToken)
         {
-           
+            var user = await _userRepository.GetUserByIdSAsync(request.Id);
+                        
+            if (user == null)
+                return ResultViewModel.Error("Usuário não encontrado");
+
+            user.RemoveRestriction();
+
+            return ResultViewModel.Sucess();
         }
     }
 }

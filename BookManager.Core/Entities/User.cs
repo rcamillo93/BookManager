@@ -7,12 +7,12 @@
             Name = name;
             Email = email;
             Active = true;
-            CreatedAt = DateTime.Now;          
+            CreatedAt = DateTime.Now;           
         }
 
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public DateTime DateRestriction { get; private set; }
+        public DateTime? DateRestriction { get; private set; }
         public int NumberOfRestrictions { get; set; }
         public bool Active { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -26,6 +26,11 @@
 
             if(NumberOfRestrictions >= 3)
                 Active = false;
+        }
+
+        public void RemoveRestriction()
+        {
+            DateRestriction = null;
         }
     }
 }

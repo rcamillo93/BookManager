@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using BookManager.Application.Models;
+using MediatR;
 
 namespace BookManager.Application.Commands.UsersCommands.CreateUser
 {
-    public class CreateUserCommand : IRequest
+    public class CreateUserCommand : IRequest<ResultViewModel<int>>
     {
         public CreateUserCommand(string name, string email)
         {

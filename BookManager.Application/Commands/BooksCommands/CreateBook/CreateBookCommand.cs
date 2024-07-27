@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using BookManager.Application.Models;
+using MediatR;
 
 namespace BookManager.Application.Commands.BooksCommands.CreateBook
 {
-    public class CreateBookCommand : IRequest
+    public class CreateBookCommand : IRequest<ResultViewModel<int>>
     {
         public CreateBookCommand(string title, string author, string iSBN, int yearPublication)
         {

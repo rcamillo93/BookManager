@@ -1,10 +1,11 @@
-﻿using BookManager.Application.ViewModels;
+﻿using BookManager.Application.Models;
+using BookManager.Application.ViewModels;
 using BookManager.Core.Repositories;
 using MediatR;
 
 namespace BookManager.Application.Queries.LoansQueries.GetLonById
 {
-    public class GetLoanByIdQueryHandler : IRequestHandler<GetLoanByIdQuery, LoanViewModel?>
+    public class GetLoanByIdQueryHandler : IRequestHandler<GetLoanByIdQuery, ResultViewModel<LoanViewModel>>
     {
         private readonly ILoanRepository _loanRepository;
 
@@ -13,16 +14,17 @@ namespace BookManager.Application.Queries.LoansQueries.GetLonById
             _loanRepository = loanRepository;
         }
 
-        public async Task<LoanViewModel?> Handle(GetLoanByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel<LoanViewModel>> Handle(GetLoanByIdQuery request, CancellationToken cancellationToken)
         {
             var loan = await _loanRepository.GetLoanByIdAsync(request.Id);
 
             if (loan == null)
-                return null;
+                return ResultViewModel<LoanViewModel>.Error("Empréstimo não encontrado");
 
             var loanViewModel = new LoanViewModel(loan.Id, loan.LoanDate, loan.ExpectedDate,
                                 loan.Client.Name, loan.Book.Title);
-            return loanViewModel;
+
+            return ResultViewModel<LoanViewModel>.Sucess(loanViewModel);
         }
     }
 }

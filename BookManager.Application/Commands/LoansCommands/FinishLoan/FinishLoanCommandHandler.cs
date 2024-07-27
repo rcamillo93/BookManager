@@ -1,9 +1,10 @@
-﻿using BookManager.Core.Repositories;
+﻿using BookManager.Application.Models;
+using BookManager.Core.Repositories;
 using MediatR;
 
 namespace BookManager.Application.Commands.LoansCommands.FinishLoan
 {
-    public class FinishLoanCommandHandler : IRequestHandler<FinishLoanCommand>
+    public class FinishLoanCommandHandler : IRequestHandler<FinishLoanCommand, ResultViewModel>
     {
         private readonly ILoanRepository _loanRepository;
 
@@ -12,16 +13,17 @@ namespace BookManager.Application.Commands.LoansCommands.FinishLoan
             _loanRepository = loanRepository;
         }
 
-        public async Task Handle(FinishLoanCommand request, CancellationToken cancellationToken)
+        public async Task<ResultViewModel> Handle(FinishLoanCommand request, CancellationToken cancellationToken)
         {
             var loan = await _loanRepository.GetLoanByIdAsync(request.Id);
 
-            if (loan != null)
-            {
-                loan.DevolverLivro();
-                await _loanRepository.SaveChangesAsync();
-            }
+            if (loan == null)
+                return ResultViewModel.Error("Empréstimo não existe.");
 
+            loan.DevolverLivro();
+            await _loanRepository.SaveChangesAsync();
+
+            return ResultViewModel.Sucess();
         }
     }
 }
