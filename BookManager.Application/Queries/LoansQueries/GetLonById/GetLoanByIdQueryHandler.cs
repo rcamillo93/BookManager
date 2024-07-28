@@ -22,7 +22,7 @@ namespace BookManager.Application.Queries.LoansQueries.GetLonById
                 return ResultViewModel<LoanViewModel>.Error("Empréstimo não encontrado");
 
             var loanViewModel = new LoanViewModel(loan.Id, loan.LoanDate, loan.ExpectedDate,
-                                loan.Client.Name, loan.Book.Title);
+                                loan.Client.Name, loan.Book.Title, loan.Returned);
 
             return ResultViewModel<LoanViewModel>.Sucess(loanViewModel);
         }

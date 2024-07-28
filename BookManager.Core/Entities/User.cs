@@ -25,7 +25,11 @@
             NumberOfRestrictions++;
 
             if(NumberOfRestrictions >= 3)
+            {
                 Active = false;
+                DateRestriction = DateTime.Now;
+            }
+                
         }
 
         public void RemoveRestriction()

@@ -1,10 +1,13 @@
 using BookManager.Api.Filters;
 using BookManager.Application.Commands.BooksCommands.CreateBook;
+using BookManager.Application.Commands.LoansCommands.CreateLoan;
+using BookManager.Application.Models;
 using BookManager.Application.Validators;
 using BookManager.Core.Repositories;
 using BookManager.Infrastructure.Persistence;
 using BookManager.Infrastructure.Persistence.Repositories;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +25,8 @@ builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBookCommandValidator>());
+
+builder.Services.AddTransient<IPipelineBehavior<CreateLoanCommand, ResultViewModel<int>>, ValidateCreateLoanCommandBehavior>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

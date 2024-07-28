@@ -19,6 +19,11 @@ namespace BookManager.Infrastructure.Persistence.Repositories
             await SaveChangesAsync();            
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
+
         public async Task<User?> GetUserByIdSAsync(int id)
         {
             return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == id);           

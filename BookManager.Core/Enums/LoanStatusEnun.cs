@@ -3,7 +3,8 @@
     public enum LoanStatusEnun
     {
         Active = 0,
-        Returned = 1,
-        Late = 3
+        Finished = 1,
+        Late = 3,
+        Renovated = 4
     }
 }

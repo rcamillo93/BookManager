@@ -1,5 +1,6 @@
 ﻿using BookManager.Application.Commands.LoansCommands.CreateLoan;
 using BookManager.Application.Commands.LoansCommands.FinishLoan;
+using BookManager.Application.Commands.LoansCommands.RenewLoan;
 using BookManager.Application.Queries.LoansQueries.GetAllLoan;
 using BookManager.Application.Queries.LoansQueries.GetLonById;
 using MediatR;
@@ -7,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookManager.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]    
     public class LoanController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -28,7 +29,7 @@ namespace BookManager.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var query = new GetLoanByIdQuery(id);
             var loan = await _mediator.Send(query);
@@ -39,12 +40,16 @@ namespace BookManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateLoanCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+
+            if(!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id)
+        [HttpPut("finish/{id}")]
+        public async Task<IActionResult> FinishLoan(int id)
         {
             var command = new FinishLoanCommand(id);
             await _mediator.Send(command);
@@ -52,5 +57,13 @@ namespace BookManager.Controllers
             return NoContent();
         }
 
+        [HttpPut("renew/{id}")]
+        public async Task<IActionResult> RenewLoan(int id)
+        {
+            var command = new RenewLoanCommand(id);
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
     }
 }

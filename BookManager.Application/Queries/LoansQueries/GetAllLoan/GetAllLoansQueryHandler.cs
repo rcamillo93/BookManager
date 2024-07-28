@@ -19,7 +19,7 @@ namespace BookManager.Application.Queries.LoansQueries.GetAllLoan
             var loans = await _loanRepository.GetAllLoanAsync();
 
             var loanViewModel = loans
-                .Select(l => new LoanViewModel(l.Id, l.LoanDate, l.ExpectedDate, l.Client.Name, l.Book.Title))
+                .Select(l => new LoanViewModel(l.Id, l.LoanDate, l.ExpectedDate, l.Client.Name, l.Book.Title, l.Returned))
                 .ToList();
 
             return ResultViewModel<List<LoanViewModel>>.Sucess(loanViewModel);
