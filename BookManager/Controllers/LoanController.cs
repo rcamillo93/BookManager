@@ -23,18 +23,24 @@ namespace BookManager.Controllers
         public async Task<IActionResult> Get()
         {
             var query = new GetAllLoansQuery();
-            var loan = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
-            return Ok(loan);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var query = new GetLoanByIdQuery(id);
-            var loan = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
-            return Ok(loan);
+            if(!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -52,7 +58,11 @@ namespace BookManager.Controllers
         public async Task<IActionResult> FinishLoan(int id)
         {
             var command = new FinishLoanCommand(id);
-            await _mediator.Send(command);
+            
+            var result = await _mediator.Send(command);
+
+            if(!result.IsSuccess)
+                return BadRequest(result?.Message);
 
             return NoContent();
         }
@@ -61,7 +71,10 @@ namespace BookManager.Controllers
         public async Task<IActionResult> RenewLoan(int id)
         {
             var command = new RenewLoanCommand(id);
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result?.Message);
 
             return NoContent();
         }

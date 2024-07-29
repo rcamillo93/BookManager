@@ -22,9 +22,12 @@ namespace BookManager.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             var query = new GetUserByIdQuery(id);
-            var user = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
-            return Ok(user);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
 
@@ -32,9 +35,12 @@ namespace BookManager.Controllers
         public async Task<IActionResult> Get()
         {
             var query = new GetAllUsersQuery();
-            var user = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
-            return Ok(user);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -53,7 +59,10 @@ namespace BookManager.Controllers
         {
             var command = new RemoveRestrictionUserCommand(id);
 
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
 
             return NoContent();
         }

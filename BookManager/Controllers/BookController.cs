@@ -21,18 +21,26 @@ namespace BookManager.Controllers
         public async Task<IActionResult> GetAllBooks()
         {
             var query = new GetAllBooksQuery();
-            var books = await _mediator.Send(query);
 
-            return Ok(books);
+            var result = await _mediator.Send(query);
+
+            if(!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById(int id)
         {
             var query = new GetBookByIdQuery(id);
-            var book = await _mediator.Send(query);
 
-            return Ok(book);
+            var result = await _mediator.Send(query);
+
+            if(!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateBookCommand command)
