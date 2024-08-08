@@ -21,7 +21,7 @@ namespace BookManager.Application.Queries.BooksQueries.GetBookById
             if (book == null)
                 return ResultViewModel<BookViewModel>.Error("Livro não encontrado");
 
-            var bookViewModel = new BookViewModel(book.Id, book.Title, book.Author, book.ISBN, book.YearPublication);
+            var bookViewModel = new BookViewModel(book.Id, book.Title, book.Author, book.ISBN, book.YearPublication, book.Available);
 
             return ResultViewModel<BookViewModel>.Sucess(bookViewModel);
         }

@@ -8,13 +8,12 @@ namespace BookManager.Application.Validators
         public CreateLoanValidator()
         {
             RuleFor(l => l.IdUser)
-                .NotNull().NotEmpty()
-                .WithMessage("Informe o cliente para iniciar um empréstimo");
-
-            RuleFor(l => l.IdBook)
-                .NotNull()
                 .NotEmpty()
-                .WithMessage("Informe um livro");
+                    .WithMessage("Informe o cliente para iniciar um empréstimo");
+
+            RuleFor(l => l.IdBook)               
+                .NotEmpty()
+                    .WithMessage("Informe um livro");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BookManager.Application.Commands.BooksCommands.CreateBook;
+using BookManager.Application.Queries.BooksQueries.FindBookByTitle;
 using BookManager.Application.Queries.BooksQueries.GetAllBooks;
 using BookManager.Application.Queries.BooksQueries.GetBookById;
 using MediatR;
@@ -42,6 +43,21 @@ namespace BookManager.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("find")]
+        public async Task<IActionResult> GetBookByName([FromQuery] string? title, [FromQuery] string? author)
+        {
+            var query = new FindBookQuery(title, author);
+
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess) 
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateBookCommand command)
         {

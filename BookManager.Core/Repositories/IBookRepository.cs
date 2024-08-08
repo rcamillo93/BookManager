@@ -6,6 +6,7 @@ namespace BookManager.Core.Repositories
     {
         Task<List<Book>> GetAllAsync();
         Task<Book?> GetByIdAsync(int id);
+        Task<List<Book?>> FindBooksAsync(string? title, string? author);
         Task AddAsync(Book book);
         Task SaveChangesAsync();
     }

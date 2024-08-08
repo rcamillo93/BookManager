@@ -11,10 +11,9 @@ namespace BookManager.Application.Validators
                 .EmailAddress()
                 .WithMessage("O e-mail é inválido");
 
-            RuleFor(u => u.Name)
-                .NotNull()
+            RuleFor(u => u.Name)                
                 .NotEmpty()
-                .WithMessage("O nome é obrigatório");
+                    .WithMessage("O nome é obrigatório");
         }
     }
 }
