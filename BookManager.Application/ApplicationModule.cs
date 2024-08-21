@@ -57,6 +57,7 @@ namespace BookManager.Application
         private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {            
             services.AddTransient<ISendEmailService, SendEmailService>();
+            services.AddTransient<IEmailService, EmailService>();
 
             return services;
         }

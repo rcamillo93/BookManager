@@ -29,5 +29,12 @@
         {
             Available = status;
         }
+        public void Update(string title, string author, string iSBN, int yearPublication)
+        {
+            Title = title;           
+            Author = author;
+            ISBN = iSBN;
+            YearPublication = yearPublication;
+        }
     }
 }

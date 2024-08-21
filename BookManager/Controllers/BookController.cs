@@ -1,4 +1,5 @@
 ﻿using BookManager.Application.Commands.BooksCommands.CreateBook;
+using BookManager.Application.Commands.BooksCommands.UpdateBook;
 using BookManager.Application.Queries.BooksQueries.FindBookByTitle;
 using BookManager.Application.Queries.BooksQueries.GetAllBooks;
 using BookManager.Application.Queries.BooksQueries.GetBookById;
@@ -57,7 +58,6 @@ namespace BookManager.Controllers
             return Ok(result);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateBookCommand command)
         {
@@ -67,6 +67,17 @@ namespace BookManager.Controllers
                 return BadRequest(result.Message);
 
             return CreatedAtAction(nameof(GetBookById), new { id = result.Data }, command);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateBookCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return NoContent();
         }
     }
 }

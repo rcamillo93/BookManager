@@ -17,8 +17,10 @@ namespace BookManager.Core.Services
         {
             var loan = await _loanRepository.GetLoanByIdAsync(idLoan);
 
-            var content = $"Empréstimo do livro {loan.Book.Title} com data devolução prevista para {loan.ExpectedDate}." +
-                $"\n A data limite para renovação é {DateTime.Now.AddDays(6).ToShortDateString}";
+            var dataRenovacao = DateTime.Now.AddDays(6);
+
+            var content = $"Empréstimo do livro: \n{loan.Book.Title} com data devolução prevista para {loan.ExpectedDate}." +
+                $"\n A data limite para renovação é {dataRenovacao.ToShortDateString()}.";
 
             await _emailService.SendEmailAsync("Abertura de empréstimo de livro", content, loan.Client.Email, loan.Client.Name);
         }
@@ -27,7 +29,7 @@ namespace BookManager.Core.Services
         {
             var loan = await _loanRepository.GetLoanByIdAsync(idLoan);
 
-            var content = $"Empréstimo do livro {loan.Book.Title} realizado no dia {loan.LoanDate} foi encerrado com sucesso.";
+            var content = $"Empréstimo do livro: \n{loan.Book.Title} realizado no dia {loan.LoanDate} foi encerrado com sucesso.";
 
             await _emailService.SendEmailAsync("Empréstimo finalizado", content, loan.Client.Email, loan.Client.Name);
         }
@@ -36,7 +38,7 @@ namespace BookManager.Core.Services
         {
             var loan = await _loanRepository.GetLoanByIdAsync(idLoan);
 
-            var content = $"O Empréstimo do livro {loan.Book.Title} foi renovando, sua nova data devolução é {loan.ExpectedDate}";
+            var content = $"O Empréstimo do livro: \n{loan.Book.Title} foi renovando, sua nova data devolução é {loan.ExpectedDate}.";
 
             await _emailService.SendEmailAsync("Renovação do empréstimo", content, loan.Client.Email, loan.Client.Name);
         }
