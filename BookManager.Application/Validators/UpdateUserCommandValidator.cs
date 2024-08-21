@@ -1,11 +1,11 @@
-﻿using BookManager.Application.Commands.UsersCommands.CreateUser;
+﻿using BookManager.Application.Commands.UsersCommands.UpdateUser;
 using FluentValidation;
 
 namespace BookManager.Application.Validators
 {
-    public class CreateUserCommandValidador : AbstractValidator<CreateUserCommand>
+    public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
-        public CreateUserCommandValidador()
+        public UpdateUserCommandValidator()
         {
             RuleFor(u => u.Email)
                 .EmailAddress()

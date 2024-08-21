@@ -10,6 +10,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BookManager.Infrastructure.Notifications;
+using BookManager.Core.Services;
 
 namespace BookManager.Application
 {
@@ -19,6 +21,7 @@ namespace BookManager.Application
         {
             services
                 .AddHandlers()
+                .AddServices(configuration)
                 .AddRepositories(configuration);
 
             return services;
@@ -47,6 +50,13 @@ namespace BookManager.Application
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+        {            
+            services.AddTransient<ISendEmailService, SendEmailService>();
 
             return services;
         }

@@ -66,5 +66,18 @@ namespace BookManager.Controllers
 
             return NoContent();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateUserCommand command)
+        {
+            var updateCommand = new UpdateUserCommand(command.Id, command.Name, command.Email);
+
+            var result = await _mediator.Send(updateCommand);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+
+            return NoContent();
+        }
     }
 }

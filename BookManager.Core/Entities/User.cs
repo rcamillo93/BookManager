@@ -8,7 +8,7 @@
             Email = email;
             Active = true;
             CreatedAt = DateTime.Now;           
-        }
+        }              
 
         public string Name { get; private set; }
         public string Email { get; private set; }
@@ -16,8 +16,7 @@
         public int NumberOfRestrictions { get; set; }
         public bool Active { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        public List<Loan> LoansUser { get; private set; }
-               
+        public List<Loan> LoansUser { get; private set; }              
 
         public void SetRestriction()
         {
@@ -35,6 +34,12 @@
         public void RemoveRestriction()
         {
             DateRestriction = null;
+        }
+
+        public void Update(string name, string email)
+        {
+            Name = name;
+            Email = email;
         }
     }
 }
